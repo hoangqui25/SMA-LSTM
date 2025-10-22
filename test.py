@@ -87,8 +87,10 @@ if __name__ == '__main__':
     print("R2 score: ", r2)
 
     plt.figure(figsize=(12,6))
-    plt.title("Actual vs Predicted Price")
+    plt.title(args.symbol.upper())
     plt.plot(y_test, color='cornflowerblue', label="Actual Price")
-    plt.plot(y_pred, color='orange', label="Predicted Price")
+    plt.plot(y_pred, color='orange', label="SMA LSTM")
+    plt.xlabel('Date')
+    plt.ylabel('Close')
     plt.legend()
     plt.show()
