@@ -62,7 +62,6 @@ if __name__ == '__main__':
 
     input_shape = (x_train.shape[1], x_train.shape[2])
 
-
     fitness = Fitness(
         input_shape=input_shape, 
         scaler=scaler_close, 

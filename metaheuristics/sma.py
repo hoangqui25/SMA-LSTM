@@ -2,13 +2,6 @@ import numpy as np
 
 
 class SMA:
-    """
-    Slime Mould Algorithm (SMA) - Original Version
-    Li, S., Chen, H., Wang, M., Heidari, A.A. and Mirjalili, S., 2020.
-    Slime mould algorithm: A new method for stochastic optimization.
-    Future Generation Computer Systems, 111, pp.300-323.
-    """
-
     def __init__(self, obj_func, lb, ub, n_dims, pop_size=10, epochs=20, p_t=0.03, seed=None):
         self.obj_func = obj_func
         self.lb = np.array(lb)
