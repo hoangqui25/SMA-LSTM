@@ -79,6 +79,5 @@ class SMA:
 
             self.pop = new_pop
             self.fitness = new_fit
-            print(self.g_best)
 
         return self.g_best, self.g_best_fit, self.history

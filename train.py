@@ -80,7 +80,8 @@ if __name__ == '__main__':
 
     sma = SMA(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.sma_epoch)
     best_params, best_score, history = sma.solve()
-
+    
+    print("History: ", history)
     print("Best paramameters:", best_params)
     print("Best score:", best_score)
 
