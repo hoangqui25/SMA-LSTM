@@ -15,7 +15,7 @@ def parse_args():
 
     parser.add_argument('--symbol', type=str, 
                         help='stock symbol to fetch')
-    parser.add_argument('--start', type=str, default='2010-01-01', 
+    parser.add_argument('--start', type=str, default='2015-01-01', 
                         help='start date for fetching stock data (format: YYYY-MM-DD)')
     parser.add_argument('--end', type=str, default='2025-01-01', 
                         help='end date for fetching stock data (format: YYYY-MM-DD)')
