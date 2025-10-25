@@ -13,11 +13,11 @@ def parse_args():
 
     parser.add_argument('--symbol', type=str, 
                         help='stock symbol to fetch')
-    parser.add_argument('--start', type=str, default='2015-01-01', 
+    parser.add_argument('--start', type=str, default='2018-01-01', 
                         help='start date for fetching stock data (format: YYYY-MM-DD)')
     parser.add_argument('--end', type=str, default='2025-01-01', 
                         help='end date for fetching stock data (format: YYYY-MM-DD)')
-    parser.add_argument('--look-back', type=int, default=50, 
+    parser.add_argument('--look-back', type=int, default=60, 
                         help='number of previous days used as input for LSTM model')
     parser.add_argument('--lstm-epoch', type=int, default=50,
                         help='number of epochs for training the LSTM model')
