@@ -19,7 +19,10 @@ class Fitness():
         model = lstm(input_shape=self.input_shape, params=params)
         optimizer = Adam(learning_rate=self.learning_rate)
         model.compile(optimizer=optimizer, loss='mse')
-        model.fit(x=self.x_train, y=self.y_train, epochs=self.epochs, batch_size=self.batch_size)
+        model.fit(x=self.x_train, 
+                  y=self.y_train, 
+                  epochs=self.epochs, 
+                  batch_size=self.batch_size)
         y_pred = model.predict(self.x_val)
         y_pred = self.scaler.inverse_transform(y_pred)
         y_val = self.scaler.inverse_transform(self.y_val.reshape(-1, 1))

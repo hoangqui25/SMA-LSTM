@@ -11,7 +11,7 @@ class SMA:
         self.epochs = epochs
         self.p_t = p_t
         self.rng = np.random.default_rng(seed)
-        self.EPSILON = 1e-12
+        self.EPSILON = 10e-10
         self.history = None
 
         # Initialize population
