@@ -29,6 +29,8 @@ def parse_args():
                         help='batch size for LSTM training')
     parser.add_argument('--learning-rate', type=float, default=0.001,
                         help='learning rate for Adam optimizer')
+    parser.add_argument('--min-delta', type=float, default=1e-3,
+                        help='')
     parser.add_argument('--save-dir', type=str, default='parameters',
                         help='directory to save best parameters')
     
@@ -64,14 +66,14 @@ if __name__ == '__main__':
 
     fitness = Fitness(
         input_shape=input_shape, 
-        scaler=scaler_close, 
         x_train=x_train, 
         y_train=y_train, 
         x_val=x_val, 
         y_val=y_val,
         epochs=args.lstm_epoch,
         batch_size=args.batch_size,
-        learning_rate=args.learning_rate
+        learning_rate=args.learning_rate,
+        min_delta=args.min_delta
     )
 
     lb = [1, 1, 1, 1, 0.1]
