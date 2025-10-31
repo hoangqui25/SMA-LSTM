@@ -29,8 +29,8 @@ def parse_args():
                         help='batch size for LSTM training')
     parser.add_argument('--learning-rate', type=float, default=0.001,
                         help='learning rate for Adam optimizer')
-    parser.add_argument('--min-delta', type=float, default=1e-3,
-                        help='')
+    parser.add_argument('--min-delta', type=float, default=1e-4,
+                        help='min delta for Early stopping')
     parser.add_argument('--save-dir', type=str, default='parameters',
                         help='directory to save best parameters')
     
