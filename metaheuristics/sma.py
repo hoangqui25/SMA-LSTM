@@ -12,7 +12,6 @@ class SMA:
         self.p_t = p_t
         self.rng = np.random.default_rng(seed)
         self.EPSILON = 1e-9
-        self.history = None
 
         # Initialize population
         self.pop = np.random.uniform(lb, ub, (pop_size, n_dims))
@@ -25,8 +24,14 @@ class SMA:
     def correct_solution(self, sol):
         return np.clip(sol, self.lb, self.ub)
 
+    def update_population(self, new_pop, new_fit):
+        for i in range(self.pop_size):
+            if new_fit[i] < self.fitness[i]:
+                self.pop[i] = new_pop[i]
+                self.fitness[i] = new_fit[i] 
+
     def solve(self):
-        self.history = []
+        history = []
         for ep in range(1, self.epochs + 1):
             sort_idx = np.argsort(self.fitness)
             self.pop = self.pop[sort_idx]
@@ -37,7 +42,7 @@ class SMA:
             f_worst = self.fitness[-1]
             self.g_best = self.pop[0]
             self.g_best_fit = f_best
-            self.history.append([self.g_best, self.g_best_fit])
+            history.append([self.g_best, self.g_best_fit])
 
             # Plus eps to avoid denominator zero
             ss = f_best - f_worst + self.EPSILON
@@ -73,15 +78,16 @@ class SMA:
                             pos_new[j] = vc[j] * pos_new[j]
                 
                 pos_new = self.correct_solution(pos_new)
-                if self.obj_func(pos_new) < self.obj_func(self.pop[i]):
-                    self.pop[i] = pos_new
                 new_pop[i] = pos_new
 
-            self.fitness = np.apply_along_axis(self.obj_func, 1, self.pop)
+            new_fit = np.apply_along_axis(self.obj_func, 1, new_pop)
 
-            best_idx = np.argmin(self.fitness)
-            if self.fitness[best_idx] < self.g_best_fit:
-                self.g_best = self.pop[best_idx].copy()
-                self.g_best_fit = self.fitness[best_idx]
+            self.update_population(new_pop, new_fit)
 
-        return self.g_best, self.g_best_fit, self.history
+        best_idx = np.argmin(self.fitness)
+        if self.fitness[best_idx] < self.g_best_fit:
+            self.g_best = self.pop[best_idx].copy()
+            self.g_best_fit = self.fitness[best_idx]
+            history.append([self.g_best, self.g_best_fit])
+
+        return self.g_best, self.g_best_fit, history
