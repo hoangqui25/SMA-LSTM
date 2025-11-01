@@ -22,7 +22,7 @@ class Fitness():
         optimizer = Adam(learning_rate=self.learning_rate)
         early_stopping = EarlyStopping (
             monitor='val_loss',
-            patience=10,
+            patience=20,
             min_delta=self.min_delta,
             restore_best_weights=True
         )
