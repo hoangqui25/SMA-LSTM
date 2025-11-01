@@ -23,8 +23,7 @@ class Fitness():
         early_stopping = EarlyStopping (
             monitor='val_loss',
             patience=20,
-            min_delta=self.min_delta,
-            restore_best_weights=True
+            min_delta=self.min_delta
         )
         model.compile(optimizer=optimizer, loss='mse')
         model.fit(x=self.x_train, 
