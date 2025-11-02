@@ -76,8 +76,8 @@ if __name__ == '__main__':
         min_delta=args.min_delta
     )
 
-    lb = [1, 1, 1, 1, 0.1]
-    ub = [200, 200, 200, 10, 0.7]
+    lb = [50, 50, 50, 16, 0.1]
+    ub = [200, 200, 200, 128, 0.7]
     n_dims = len(lb)
 
     sma = SMA(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.sma_epoch)

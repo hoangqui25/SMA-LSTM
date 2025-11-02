@@ -76,12 +76,11 @@ class SMA:
                             pos_new[j] = self.g_best[j] + vb[j] * (weights[i, j] * self.pop[id_a, j] - self.pop[id_b, j])
                         else:
                             pos_new[j] = vc[j] * pos_new[j]
-                
+
                 pos_new = self.correct_solution(pos_new)
                 new_pop[i] = pos_new
 
             new_fit = np.apply_along_axis(self.obj_func, 1, new_pop)
-
             self.update_population(new_pop, new_fit)
 
         best_idx = np.argmin(self.fitness)

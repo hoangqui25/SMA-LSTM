@@ -22,7 +22,7 @@ class Fitness():
         optimizer = Adam(learning_rate=self.learning_rate)
         early_stopping = EarlyStopping (
             monitor='val_loss',
-            patience=20,
+            patience=10,
             min_delta=self.min_delta
         )
         model.compile(optimizer=optimizer, loss='mse')
@@ -38,6 +38,6 @@ class Fitness():
         val_loss = mean_squared_error(y_pred, self.y_val)
 
         # Check if val_loss is NaN or Inf
-        if np.isnan(val_loss) or np.isinf(val_loss):
-            val_loss = 1e10
+        if np.isnan(val_loss).any() or np.isinf(val_loss).any():
+            val_loss = 1
         return val_loss

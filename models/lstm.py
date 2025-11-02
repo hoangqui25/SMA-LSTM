@@ -20,7 +20,7 @@ def lstm(input_shape, params):
     if units3 > 0:
         model.add(LSTM(units=units3, activation='relu'))
     
-    model.add(Dense(units=dense))
+    model.add(Dense(units=dense, activation='relu'))
 
     model.add(Dropout(dropout))
 
