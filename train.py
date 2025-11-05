@@ -84,7 +84,7 @@ if __name__ == '__main__':
     best_params, best_score, history = sma.solve()
     
     print("History: ", history)
-    print("Best paramameters:", best_params)
+    print("Best parameters:", best_params)
     print("Best score:", best_score)
 
     os.makedirs(args.save_dir, exist_ok=True)
