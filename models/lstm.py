@@ -3,10 +3,10 @@ from keras.layers import Dense, Dropout, LSTM, Input
 
         
 def lstm(input_shape, params):
-    units1 = int(params[0])
-    units2 = int(params[1])
-    units3 = int(params[2])
-    dense = int(params[3])
+    units1 = round(params[0])
+    units2 = round(params[1])
+    units3 = round(params[2])
+    dense = round(params[3])
     dropout = float(params[4])
 
     model = Sequential()
