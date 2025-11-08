@@ -23,6 +23,9 @@ def parse_args():
                         help='number of previous days used as input for LSTM model')
     parser.add_argument('--lstm-epoch', type=int, default=50,
                         help='number of epochs for training the LSTM model')
+    parser.add_argument('--metaheuristic', type=str,
+                        choices=['abc', 'sma'],
+                        help='metaheuristic algorithm used to optimize LSTM hyperparameters')
     parser.add_argument('--batch-size', type=int, default=32,
                         help='batch size for LSTM training')
     parser.add_argument('--learning-rate', type=float, default=0.001,
@@ -89,7 +92,7 @@ if __name__ == '__main__':
     plt.figure(figsize=(12,6))
     plt.title(args.symbol.upper())
     plt.plot(y_test, color='cornflowerblue', label="Actual Price")
-    plt.plot(y_pred, color='orange', label="SMA LSTM")
+    plt.plot(y_pred, color='orange', label=args.metaheuristic.upper() + " LSTM")
     plt.xlabel('Date')
     plt.ylabel('Close')
     plt.legend()

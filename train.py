@@ -4,6 +4,7 @@ import argparse
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from metaheuristics.sma import SMA
+from metaheuristics.abc import ABC
 from fitness.fitness import Fitness
 from datasets.vnstock import VnStockDataset
 
@@ -21,8 +22,11 @@ def parse_args():
                         help='number of previous days used as input for LSTM model')
     parser.add_argument('--lstm-epoch', type=int, default=50,
                         help='number of epochs for training the LSTM model')
-    parser.add_argument('--sma-epoch', type=int, default=20,
-                        help='number of iterations for SMA optimizer')
+    parser.add_argument('--metaheuristic', type=str,
+                        choices=['abc', 'sma'],
+                        help='metaheuristic algorithm used to optimize LSTM hyperparameters')
+    parser.add_argument('--metaheuristic-epoch', type=int, default=20,
+                        help='number of iterations for metaheuristic')
     parser.add_argument('--pop-size', type=int, default=10,
                         help='population size of SMA optimizer')
     parser.add_argument('--batch-size', type=int, default=32,
@@ -76,12 +80,15 @@ if __name__ == '__main__':
         min_delta=args.min_delta
     )
 
-    lb = [50, 50, 50, 16, 0.1]
-    ub = [200, 200, 200, 128, 0.7]
+    lb = [16, 16, 16, 16, 0.0]
+    ub = [200, 200, 200, 128, 0.5]
     n_dims = len(lb)
 
-    sma = SMA(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.sma_epoch)
-    best_params, best_score, history = sma.solve()
+    if args.metaheuristic == 'abc':
+        metaheuristic = ABC(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
+    elif args.metaheuristic == 'sma':
+        metaheuristic = ABC(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
+    best_params, best_score, history = metaheuristic.solve()
     
     print("History: ", history)
     print("Best parameters:", best_params)
@@ -96,7 +103,7 @@ if __name__ == '__main__':
     with open(save_path, "w") as f:
         json.dump({
             "best_params": best_params_serializable,
-            "best_score": best_score_serializable
+            "best_fitness": best_score_serializable
         }, f, indent=4)
 
     print(f"Saved best parameters and best score to {save_path}")
