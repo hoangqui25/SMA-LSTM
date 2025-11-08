@@ -2,7 +2,7 @@ import numpy as np
 
 
 class SMA:
-    def __init__(self, obj_func, lb, ub, n_dims, pop_size=10, epochs=20, p_t=0.03, seed=None):
+    def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, p_t=0.03, seed=None):
         self.obj_func = obj_func
         self.lb = np.array(lb)
         self.ub = np.array(ub)
@@ -18,8 +18,8 @@ class SMA:
         self.fitness = np.apply_along_axis(self.obj_func, 1, self.pop)
 
         # Find the best soulution 
-        self.g_best = self.pop[np.argmin(self.fitness)]
-        self.g_best_fit = np.min(self.fitness)
+        self.best_solution = self.pop[np.argmin(self.fitness)]
+        self.best_fitness = np.min(self.fitness)
 
     def correct_solution(self, sol):
         return np.clip(sol, self.lb, self.ub)
@@ -40,9 +40,9 @@ class SMA:
             # Find the best and the worst solution
             f_best = self.fitness[0]
             f_worst = self.fitness[-1]
-            self.g_best = self.pop[0]
-            self.g_best_fit = f_best
-            history.append([self.g_best, self.g_best_fit])
+            self.best_solution = self.pop[0]
+            self.best_fitness = f_best
+            history.append([self.best_solution, self.best_fitness])
 
             # Plus eps to avoid denominator zero
             ss = f_best - f_worst + self.EPSILON
@@ -59,7 +59,7 @@ class SMA:
             aa = np.arctanh(1 - ep / self.epochs)  # Eq.(2.4)
             bb = 1 - ep / self.epochs
 
-            new_pop = np.zeros_like(self.pop)
+            # new_pop = np.zeros_like(self.pop)
                 
             for i in range(self.pop_size):
                 if self.rng.random() < self.p_t:  # Eq.(2.7)
@@ -73,20 +73,21 @@ class SMA:
                         # Two positions randomly selected from population
                         id_a, id_b = self.rng.choice(list(set(range(self.pop_size)) - {i}), 2, replace=False)
                         if self.rng.random() < p:  # Eq.(2.1)
-                            pos_new[j] = self.g_best[j] + vb[j] * (weights[i, j] * self.pop[id_a, j] - self.pop[id_b, j])
+                            pos_new[j] = self.best_solution[j] + vb[j] * (weights[i, j] * self.pop[id_a, j] - self.pop[id_b, j])
                         else:
                             pos_new[j] = vc[j] * pos_new[j]
 
                 pos_new = self.correct_solution(pos_new)
-                new_pop[i] = pos_new
+                self.pop[i] = pos_new
+                # new_pop[i] = pos_new
 
-            new_fit = np.apply_along_axis(self.obj_func, 1, new_pop)
-            self.update_population(new_pop, new_fit)
+            # self.pop = new_pop
+            self.fitness = np.apply_along_axis(self.obj_func, 1, self.pop)
 
         best_idx = np.argmin(self.fitness)
-        if self.fitness[best_idx] < self.g_best_fit:
-            self.g_best = self.pop[best_idx].copy()
-            self.g_best_fit = self.fitness[best_idx]
-            history.append([self.g_best, self.g_best_fit])
+        if self.fitness[best_idx] < self.best_fitness:
+            self.best_solution = self.pop[best_idx].copy()
+            self.best_fitness = self.fitness[best_idx]
+            history.append([self.best_solution, self.best_fitness])
 
-        return self.g_best, self.g_best_fit, history
+        return self.best_solution, self.best_fitness, history
