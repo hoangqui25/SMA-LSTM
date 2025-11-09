@@ -87,7 +87,7 @@ if __name__ == '__main__':
     if args.metaheuristic == 'abc':
         metaheuristic = ABC(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
     elif args.metaheuristic == 'sma':
-        metaheuristic = ABC(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
+        metaheuristic = SMA(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
     best_params, best_score, history = metaheuristic.solve()
     
     print("History: ", history)
