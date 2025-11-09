@@ -21,7 +21,7 @@ pip install -r requirements.txt
 python train.py --symbol <symbol of company> --metaheuristic <metaheuristic algorithm> --save-dir <directory to save best parameters>
 ```
 
-2、 Test Model
+2、 Test model
 
 ```
 python test.py --symbol <symbol of company> --metaheuristic <metaheuristic algorithm> --load-dir <directory to load parameters>
