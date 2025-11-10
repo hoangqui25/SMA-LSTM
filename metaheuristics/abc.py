@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class ABC:
     def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, limits=10, seed=None):
         self.obj_func = obj_func
