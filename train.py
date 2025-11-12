@@ -33,8 +33,8 @@ def parse_args():
                         help='batch size for LSTM training')
     parser.add_argument('--learning-rate', type=float, default=0.001,
                         help='learning rate for Adam optimizer')
-    parser.add_argument('--min-delta', type=float, default=1e-4,
-                        help='min delta for Early stopping')
+    parser.add_argument('--re-evaluation', action='store_true',
+                        help='re-evaluation mode in metaheuristic')
     parser.add_argument('--save-dir', type=str, default='parameters',
                         help='directory to save best parameters')
     
@@ -76,8 +76,7 @@ if __name__ == '__main__':
         y_val=y_val,
         epochs=args.lstm_epoch,
         batch_size=args.batch_size,
-        learning_rate=args.learning_rate,
-        min_delta=args.min_delta
+        learning_rate=args.learning_rate
     )
 
     lb = [16, 16, 16, 16, 0.0]
@@ -85,9 +84,20 @@ if __name__ == '__main__':
     n_dims = len(lb)
 
     if args.metaheuristic == 'abc':
-        metaheuristic = ABC(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
+        metaheuristic = ABC(
+            obj_func=fitness.evulate, lb=lb, 
+            ub=ub, n_dims=n_dims, 
+            pop_size=args.pop_size, 
+            epochs=args.metaheuristic_epoch,
+            RE_EVALUATION_MODE=args.re_evaluation
+        )
     elif args.metaheuristic == 'sma':
-        metaheuristic = SMA(obj_func=fitness.evulate, lb=lb, ub=ub, n_dims=n_dims, pop_size=args.pop_size, epochs=args.metaheuristic_epoch)
+        metaheuristic = SMA(
+            obj_func=fitness.evulate, 
+            lb=lb, ub=ub, n_dims=n_dims, 
+            pop_size=args.pop_size, 
+            epochs=args.metaheuristic_epoch
+        )
     best_params, best_score, history = metaheuristic.solve()
     
     print("History: ", history)
