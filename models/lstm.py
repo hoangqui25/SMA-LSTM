@@ -3,26 +3,22 @@ from keras.layers import Dense, Dropout, LSTM, Input
 
         
 def lstm(input_shape, params):
-    units1 = round(params[0])
-    units2 = round(params[1])
-    units3 = round(params[2])
-    dense = round(params[3])
-    dropout = float(params[4])
+    units = round(params[0])
+    dropout_1 = params[1]
+    dropout_2 = params[2]
+    dropout_3 = params[3]
 
     model = Sequential()
 
     model.add(Input(shape=input_shape))
 
-    if units1 > 0:
-        model.add(LSTM(units=units1, activation='relu', return_sequences=True))
-    if units2 > 0:
-        model.add(LSTM(units=units2, activation='relu', return_sequences=True))
-    if units3 > 0:
-        model.add(LSTM(units=units3, activation='relu'))
-    
-    model.add(Dense(units=dense, activation='relu'))
 
-    model.add(Dropout(dropout))
+    model.add(LSTM(units=units, activation='relu', return_sequences=True))
+    model.add(Dropout(dropout_1))
+    model.add(LSTM(units=units, activation='relu', return_sequences=True))
+    model.add(Dropout(dropout_2))
+    model.add(LSTM(units=units, activation='relu', return_sequences=False))
+    model.add(Dropout(dropout_3))
 
     model.add(Dense(units=1))
     return model
