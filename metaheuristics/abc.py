@@ -2,7 +2,7 @@ import numpy as np
 
 
 class ABC:
-    def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, limits=3, RE_EVALUATION_MODE=True, seed=None):
+    def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, limits=3, seed=None):
         self.obj_func = obj_func
         self.lb = np.array(lb)
         self.ub = np.array(ub)
@@ -10,7 +10,6 @@ class ABC:
         self.pop_size = pop_size
         self.epochs = epochs
         self.limits = limits
-        self.RE_EVALUATION_MODE = RE_EVALUATION_MODE
         self.rng = np.random.default_rng(seed)
 
         # Initialize population
@@ -73,10 +72,6 @@ class ABC:
 
             # Update global best
             best_idx = np.argmin(self.fitness)
-            if self.RE_EVALUATION_MODE:
-                self.best_fitness = self.obj_func(self.best_solution)
-                self.fitness[best_idx] = self.obj_func(self.pop[best_idx])
-
             if self.fitness[best_idx] < self.best_fitness:
                 self.best_solution = self.pop[best_idx]
                 self.best_fitness = self.fitness[best_idx]
