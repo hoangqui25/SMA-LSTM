@@ -33,8 +33,6 @@ def parse_args():
                         help='batch size for LSTM training')
     parser.add_argument('--learning-rate', type=float, default=0.001,
                         help='learning rate for Adam optimizer')
-    parser.add_argument('--re-evaluation', action='store_true',
-                        help='re-evaluation mode in metaheuristic')
     parser.add_argument('--save-dir', type=str, default='parameters',
                         help='directory to save best parameters')
     
@@ -79,8 +77,8 @@ if __name__ == '__main__':
         learning_rate=args.learning_rate
     )
 
-    lb = [16, 16, 16, 16, 0.0]
-    ub = [200, 200, 200, 128, 0.5]
+    lb = [50, 0.0, 0.1, 0.2]
+    ub = [300, 0.2, 0.3, 0.4]
     n_dims = len(lb)
 
     if args.metaheuristic == 'abc':
@@ -89,7 +87,6 @@ if __name__ == '__main__':
             ub=ub, n_dims=n_dims, 
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch,
-            RE_EVALUATION_MODE=args.re_evaluation
         )
     elif args.metaheuristic == 'sma':
         metaheuristic = SMA(
