@@ -75,6 +75,7 @@ class ABC:
             best_idx = np.argmin(self.fitness)
             if self.RE_EVALUATION_MODE:
                 self.best_fitness = self.obj_func(self.best_solution)
+                self.fitness[best_idx] = self.obj_func(self.pop[best_idx])
 
             if self.fitness[best_idx] < self.best_fitness:
                 self.best_solution = self.pop[best_idx]
