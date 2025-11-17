@@ -89,7 +89,7 @@ if __name__ == '__main__':
             n_dims=n_dims, 
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch,
-            limits=(0.15 * args.metaheuristic_epoch)
+            limits=(0.2 * args.metaheuristic_epoch)
         )
     elif args.metaheuristic == 'sma':
         metaheuristic = SMA(
