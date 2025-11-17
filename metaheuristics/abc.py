@@ -2,7 +2,7 @@ import numpy as np
 
 
 class ABC:
-    def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, limits=3, seed=None):
+    def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, limits, seed=None):
         self.obj_func = obj_func
         self.lb = np.array(lb)
         self.ub = np.array(ub)

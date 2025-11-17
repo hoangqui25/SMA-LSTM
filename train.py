@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import argparse
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
@@ -77,16 +78,18 @@ if __name__ == '__main__':
         learning_rate=args.learning_rate
     )
 
-    lb = [50, 0.0, 0.1, 0.2]
-    ub = [300, 0.2, 0.3, 0.4]
+    lb = [64, 0.0]
+    ub = [256, 0.5]
     n_dims = len(lb)
 
     if args.metaheuristic == 'abc':
         metaheuristic = ABC(
-            obj_func=fitness.evulate, lb=lb, 
-            ub=ub, n_dims=n_dims, 
+            obj_func=fitness.evulate, 
+            lb=lb, ub=ub, 
+            n_dims=n_dims, 
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch,
+            limits=10
         )
     elif args.metaheuristic == 'sma':
         metaheuristic = SMA(
@@ -95,8 +98,14 @@ if __name__ == '__main__':
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch
         )
-    best_params, best_score, history = metaheuristic.solve()
     
+    start = time.time()
+    best_params, best_score, history = metaheuristic.solve()
+    end = time.time()
+
+    run_time = end - start
+    
+    print("Run time: ", run_time)
     print("History: ", history)
     print("Best parameters:", best_params)
     print("Best score:", best_score)

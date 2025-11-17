@@ -25,7 +25,7 @@ class Fitness():
                 y=self.y_train, 
                 validation_data=(self.x_val, self.y_val),
                 epochs=self.epochs, 
-                batch_size=self.batch_size,
+                batch_size=self.batch_size
         )
         y_pred = model.predict(self.x_val)
         val_loss = mean_squared_error(y_pred, self.y_val)
