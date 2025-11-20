@@ -21,8 +21,6 @@ def parse_args():
                         help='end date for fetching stock data (format: YYYY-MM-DD)')
     parser.add_argument('--look-back', type=int, default=60, 
                         help='number of previous days used as input for LSTM model')
-    parser.add_argument('--lstm-epoch', type=int, default=50,
-                        help='number of epochs for training the LSTM model')
     parser.add_argument('--metaheuristic', type=str,
                         choices=['abc', 'sma'],
                         help='metaheuristic algorithm used to optimize LSTM hyperparameters')
