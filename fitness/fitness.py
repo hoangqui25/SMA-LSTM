@@ -6,13 +6,12 @@ from sklearn.metrics import mean_squared_error
 
 
 class Fitness():
-    def __init__(self, x_train, y_train, x_val, y_val, input_shape, epochs, batch_size, learning_rate):
+    def __init__(self, x_train, y_train, x_val, y_val, input_shape, batch_size, learning_rate):
         self.x_train = x_train
         self.y_train = y_train
         self.x_val = x_val
         self.y_val = y_val
         self.input_shape = input_shape
-        self.epochs = epochs
         self.batch_size = batch_size
         self.learning_rate = learning_rate
 

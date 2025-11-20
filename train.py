@@ -71,7 +71,6 @@ if __name__ == '__main__':
         y_train=y_train, 
         x_val=x_val, 
         y_val=y_val,
-        epochs=args.lstm_epoch,
         batch_size=args.batch_size,
         learning_rate=args.learning_rate
     )
