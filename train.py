@@ -78,8 +78,8 @@ if __name__ == '__main__':
         learning_rate=args.learning_rate
     )
 
-    lb = [64, 0.0]
-    ub = [256, 0.5]
+    lb = [64, 0.0, 50]
+    ub = [256, 0.5, 100]
     n_dims = len(lb)
 
     if args.metaheuristic == 'abc':

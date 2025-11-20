@@ -24,7 +24,7 @@ class Fitness():
                 x=self.x_train, 
                 y=self.y_train, 
                 validation_data=(self.x_val, self.y_val),
-                epochs=self.epochs, 
+                epochs=round(params[2]), 
                 batch_size=self.batch_size
         )
         y_pred = model.predict(self.x_val)
