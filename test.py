@@ -72,7 +72,7 @@ if __name__ == '__main__':
     model = lstm(input_shape=input_shape, params=best_params)
     optimizer = Adam(learning_rate=args.learning_rate)
     model.compile(optimizer=optimizer, loss='mse')
-    model.fit(x_train, y_train, epochs=best_params[2])
+    model.fit(x_train, y_train, epochs=round(best_params[2]))
 
     y_pred = model.predict(x_test)
     y_pred = scaler_close.inverse_transform(y_pred)
