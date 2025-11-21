@@ -1,8 +1,6 @@
 import numpy as np
 from models.lstm import lstm
 from keras.optimizers import Adam
-from keras.callbacks import EarlyStopping
-from sklearn.metrics import mean_squared_error
 
 
 class Fitness():
