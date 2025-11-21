@@ -18,7 +18,6 @@ class Fitness():
         optimizer = Adam(learning_rate=self.learning_rate)
         model.compile(optimizer=optimizer, loss='mse')
 
-        # Train model và lưu lịch sử loss
         history = model.fit(
             x=self.x_train, 
             y=self.y_train, 
@@ -32,7 +31,6 @@ class Fitness():
         
         fitness_val = np.mean(val_losses[-n:])
 
-        # Kiểm tra NaN hoặc Inf
         if np.isnan(fitness_val) or np.isinf(fitness_val):
             fitness_val = 1
 
