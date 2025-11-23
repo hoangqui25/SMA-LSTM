@@ -22,11 +22,11 @@ class Fitness():
             x=self.x_train, 
             y=self.y_train, 
             validation_data=(self.x_val, self.y_val),
-            epochs=round(params[2]), 
+            epochs=round(params[0]), 
             batch_size=self.batch_size,
         )
 
-        n = max(1, round(round(params[2]) * 0.2))
+        n = max(1, round(round(params[0]) * 0.2))
         val_losses = history.history['val_loss']
         
         fitness_val = np.mean(val_losses[-n:])
