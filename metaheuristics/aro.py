@@ -2,16 +2,16 @@ import numpy as np
 
 
 class ARO:
-    def __init__(self, obj_func, lb, ub, n_dims, pop_size=100, epochs=1000):
+    def __init__(self, obj_func, lb, ub, pop_size=100, epochs=1000):
         self.obj_func = obj_func
         self.lb = np.array(lb)
         self.ub = np.array(ub)
-        self.n_dims = n_dims
+        self.n_dims = len(lb)
         self.pop_size = pop_size
         self.epochs = epochs
 
         # Initialize rabbits (solutions)
-        self.pop = np.random.uniform(lb, ub, (pop_size, n_dims))
+        self.pop = np.random.uniform(lb, ub, (pop_size, self.n_dims))
         self.fitness = np.apply_along_axis(self.obj_func, 1, self.pop)
 
         # Find the best rabbit (solution) and score (target)

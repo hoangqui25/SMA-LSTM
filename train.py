@@ -9,7 +9,7 @@ from metaheuristics.abc import ABC
 from metaheuristics.aro import ARO
 from fitness.fitness import Fitness
 from datasets.vnstock import VnStockDataset
-from utils.config import lb, ub, n_dims
+from utils.config import cfg
 
 
 def parse_args():
@@ -80,8 +80,7 @@ if __name__ == '__main__':
     if args.metaheuristic == 'abc':
         metaheuristic = ABC(
             obj_func=fitness.evulate, 
-            lb=lb, ub=ub, 
-            n_dims=n_dims, 
+            lb=cfg['lb'], ub=cfg['ub'],  
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch,
             limits=(0.2 * args.metaheuristic_epoch)
@@ -89,14 +88,14 @@ if __name__ == '__main__':
     elif args.metaheuristic == 'sma':
         metaheuristic = SMA(
             obj_func=fitness.evulate, 
-            lb=lb, ub=ub, n_dims=n_dims, 
+            lb=cfg['lb'], ub=cfg['ub'], 
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch
         )
     elif args.metaheuristic == 'aro':
         metaheuristic = ARO(
             obj_func=fitness.evulate, 
-            lb=lb, ub=ub, n_dims=n_dims, 
+            lb=cfg['lb'], ub=cfg['ub'], 
             pop_size=args.pop_size, 
             epochs=args.metaheuristic_epoch
         )

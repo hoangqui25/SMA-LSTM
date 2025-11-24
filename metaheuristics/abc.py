@@ -2,18 +2,18 @@ import numpy as np
 
 
 class ABC:
-    def __init__(self, obj_func, lb, ub, n_dims, pop_size, epochs, limits, seed=None):
+    def __init__(self, obj_func, lb, ub, pop_size, epochs, limits, seed=None):
         self.obj_func = obj_func
         self.lb = np.array(lb)
         self.ub = np.array(ub)
-        self.n_dims = n_dims
+        self.n_dims = len(lb)
         self.pop_size = pop_size
         self.epochs = epochs
         self.limits = limits
         self.rng = np.random.default_rng(seed)
 
         # Initialize population
-        self.pop = np.random.uniform(self.lb, self.ub, (pop_size, n_dims))
+        self.pop = np.random.uniform(self.lb, self.ub, (pop_size, self.n_dims))
         self.fitness = np.apply_along_axis(self.obj_func, 1, self.pop)
 
         # Initialize trials (for scout phase)
