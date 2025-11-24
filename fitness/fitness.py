@@ -1,5 +1,6 @@
 import numpy as np
 from models.lstm import lstm
+from utils.decode import decode
 from keras.optimizers import Adam
 
 
@@ -14,6 +15,7 @@ class Fitness():
         self.learning_rate = learning_rate
 
     def evulate(self, params):
+        params = decode(params)
         model = lstm(input_shape=self.input_shape, params=params)
         optimizer = Adam(learning_rate=self.learning_rate)
         model.compile(optimizer=optimizer, loss='mse')
@@ -22,11 +24,11 @@ class Fitness():
             x=self.x_train, 
             y=self.y_train, 
             validation_data=(self.x_val, self.y_val),
-            epochs=round(params[0]), 
+            epochs=params['epochs'], 
             batch_size=self.batch_size,
         )
 
-        n = max(1, round(round(params[0]) * 0.2))
+        n = max(1, round(params['epochs'] * 0.2))
         val_losses = history.history['val_loss']
         
         fitness_val = np.mean(val_losses[-n:])

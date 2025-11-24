@@ -6,8 +6,10 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from metaheuristics.sma import SMA
 from metaheuristics.abc import ABC
+from metaheuristics.aro import ARO
 from fitness.fitness import Fitness
 from datasets.vnstock import VnStockDataset
+from utils.config import lb, ub, n_dims
 
 
 def parse_args():
@@ -22,7 +24,7 @@ def parse_args():
     parser.add_argument('--look-back', type=int, default=60, 
                         help='number of previous days used as input for LSTM model')
     parser.add_argument('--metaheuristic', type=str,
-                        choices=['abc', 'sma'],
+                        choices=['abc', 'sma', 'aro'],
                         help='metaheuristic algorithm used to optimize LSTM hyperparameters')
     parser.add_argument('--metaheuristic-epoch', type=int, default=20,
                         help='number of iterations for metaheuristic')
@@ -75,10 +77,6 @@ if __name__ == '__main__':
         learning_rate=args.learning_rate
     )
 
-    lb = [50, 64, 64, 64, 0.0]
-    ub = [100, 256, 256, 256, 0.5]
-    n_dims = len(lb)
-
     if args.metaheuristic == 'abc':
         metaheuristic = ABC(
             obj_func=fitness.evulate, 
@@ -90,6 +88,13 @@ if __name__ == '__main__':
         )
     elif args.metaheuristic == 'sma':
         metaheuristic = SMA(
+            obj_func=fitness.evulate, 
+            lb=lb, ub=ub, n_dims=n_dims, 
+            pop_size=args.pop_size, 
+            epochs=args.metaheuristic_epoch
+        )
+    elif args.metaheuristic == 'aro':
+        metaheuristic = ARO(
             obj_func=fitness.evulate, 
             lb=lb, ub=ub, n_dims=n_dims, 
             pop_size=args.pop_size, 
@@ -116,7 +121,7 @@ if __name__ == '__main__':
     with open(save_path, "w") as f:
         json.dump({
             "best_params": best_params_serializable,
-            "best_fitness": best_score_serializable
+            "best_scores": best_score_serializable
         }, f, indent=4)
 
     print(f"Saved best parameters and best score to {save_path}")

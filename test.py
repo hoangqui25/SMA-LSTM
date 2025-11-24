@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from models.lstm import lstm
+from utils.decode import decode
 from keras.optimizers import Adam
 from datasets.vnstock import VnStockDataset
 from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error, r2_score
@@ -22,7 +23,7 @@ def parse_args():
     parser.add_argument('--look-back', type=int, default=60, 
                         help='number of previous days used as input for LSTM model')
     parser.add_argument('--metaheuristic', type=str,
-                        choices=['abc', 'sma'],
+                        choices=['abc', 'sma', 'aro'],
                         help='metaheuristic algorithm used to optimize LSTM hyperparameters')
     parser.add_argument('--batch-size', type=int, default=32,
                         help='batch size for LSTM training')
@@ -66,13 +67,14 @@ if __name__ == '__main__':
         config = json.load(f)
 
     best_params = config["best_params"]
+    best_params = decode(best_params)
     print("Loaded best params:", best_params)
 
     input_shape = (x_train.shape[1], x_train.shape[2])
     model = lstm(input_shape=input_shape, params=best_params)
     optimizer = Adam(learning_rate=args.learning_rate)
     model.compile(optimizer=optimizer, loss='mse')
-    model.fit(x_train, y_train, epochs=round(best_params[0]))
+    model.fit(x_train, y_train, epochs=best_params['epochs'])
 
     y_pred = model.predict(x_test)
     y_pred = scaler_close.inverse_transform(y_pred)
