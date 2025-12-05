@@ -1,7 +1,7 @@
 def decode(x):
-    epochs = int(round(x[0]))
-    neurons = int(round(x[1]))
-    dropout = float(x[2])
+    neurons = int(round(x[0]))
+    dropout = float(x[1])
+    epochs = int(round(x[2]))
     
     return {
         "epochs": epochs,
