@@ -23,7 +23,7 @@ def parse_args():
     parser.add_argument('--look-back', type=int, default=60, 
                         help='number of previous days used as input for LSTM model')
     parser.add_argument('--metaheuristic', type=str,
-                        choices=['abc', 'sma', 'aro'],
+                        choices=['abc', 'sma', 'aro', 'none'],
                         help='metaheuristic algorithm used to optimize LSTM hyperparameters')
     parser.add_argument('--batch-size', type=int, default=32,
                         help='batch size for LSTM training')
@@ -84,6 +84,7 @@ if __name__ == '__main__':
     mse = mean_squared_error(y_test, y_pred)
     mape = mean_absolute_percentage_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
+    
     print("Mean absolute error :", mae)
     print("Mean squared error :", mse)
     print("Mean absolute percentage error", mape)
@@ -92,7 +93,10 @@ if __name__ == '__main__':
     plt.figure(figsize=(12,6))
     plt.title(args.symbol.upper())
     plt.plot(y_test, color='cornflowerblue', label="Actual Price")
-    plt.plot(y_pred, color='orange', label=args.metaheuristic.upper() + " LSTM")
+    if (args.metaheuristic == 'none'):
+        plt.plot(y_pred, color='orange', label= "LSTM")
+    else:
+        plt.plot(y_pred, color='orange', label=args.metaheuristic.upper() + " LSTM")
     plt.xlabel('Date')
     plt.ylabel('Close')
     plt.legend()
